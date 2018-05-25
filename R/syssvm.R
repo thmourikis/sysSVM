@@ -9,7 +9,7 @@
 #'
 #'
 
-syssvm <- function(input.file=NULL, output.dir=NULL, exclude.features=NULL, models=NULL,
+syssvm <- function(input.file=NULL, output.dir=NULL, exclude.features=c("cancer_type"), models=NULL,
                    scaling.factors=NULL, cv=3, iters=100,
                    kernels=c("linear", "polynomial", "radial", "sigmoid"),
                    cores=2) {
