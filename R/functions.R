@@ -112,6 +112,10 @@ createDescribeTrainingCGC = function( input.file=NULL, output.dir=NULL, exclude.
   if(!is.null(input.file)){
     d = read.table(input.file, sep="\t", header = T)
 
+    ## Convert all column names to lowercase
+    columns.lowercase<-tolower(colnames(d))
+    colnames(d)<-columns.lowercase
+
     FEATURES = colnames(d)[!colnames(d)%in%exclude.features]
 
     d = d %>% select(one_of(c("sample", "entrez", FEATURES))) %>% data.frame()
