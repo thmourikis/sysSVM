@@ -31,19 +31,19 @@ markTrainCGC <- function(df, fp_dir="example_data/NCG_false_positives.txt",
 
   ## Training set extraction
   cat("Marking genes for training...", "\n")
-  #df = df %>% mutate(TP=ifelse((vogel=="Vog.Oncogene" | vogel=="Vog.TS") & (no_TRUNC_muts!=0 | no_NTDam_muts!=0 | no_GOF_muts!=0 | CNVGain==1 | CNVLoss==1 | ExpT_NET==1), T, F))
+  #df = df %>% mutate(TP=ifelse((vogel=="Vog.Oncogene" | vogel=="Vog.TS") & (no_trunc_muts!=0 | no_ntdam_muts!=0 | no_gof_muts!=0 | cnvgain==1 | cnvloss==1 | ExpT_NET==1), T, F))
   #if( df%>%grepl(tissue, primary_site)%>%nrow==0 ) stop("Tissue not present")
 
 
-  df = df %>% mutate(TP=ifelse((gene_type=="cgc") & (no_TRUNC_muts!=0 |
-                                                       no_NTDam_muts!=0 |
-                                                       no_GOF_muts!=0 |
-                                                       (CNVGain==1) |
-                                                       (Copy_number==0) |
-                                                       ((Copy_number==1) & (no_TRUNC_muts!=0 | no_NTDam_muts!=0)) |
-                                                       BND!=0 |
-                                                       INS!=0 |
-                                                       INV!=0) & !(entrez%in%false_positive_genes$entrez), T, F))
+  df = df %>% mutate(TP=ifelse((gene_type=="cgc") & (no_trunc_muts!=0 |
+                                                       no_ntdam_muts!=0 |
+                                                       no_gof_muts!=0 |
+                                                       (cnvgain==1) |
+                                                       (copy_number==0) |
+                                                       ((copy_number==1) & (no_trunc_muts!=0 | no_ntdam_muts!=0)) |
+                                                       bnd!=0 |
+                                                       ins!=0 |
+                                                       inv!=0) & !(entrez%in%false_positive_genes$entrez), T, F))
 
 
   cat("Adding type annotation for training...", "\n")
@@ -56,15 +56,15 @@ markTrainCGC <- function(df, fp_dir="example_data/NCG_false_positives.txt",
   df$type = as.factor(df$type)
 
   ## Exclude genes without any alterations from training & prediction set  (I now added the exclusion of the NCG FPs as an option by default they are not excluded)
-  df = df %>% subset((no_TRUNC_muts!=0 |
-                        no_NTDam_muts!=0 |
-                        no_GOF_muts!=0 |
-                        (CNVGain==1) |
-                        (Copy_number==0) |
-                        ((Copy_number==1) & (no_TRUNC_muts!=0 | no_NTDam_muts!=0)) |
-                        BND!=0 |
-                        INS!=0 |
-                        INV!=0) )
+  df = df %>% subset((no_trunc_muts!=0 |
+                        no_ntdam_muts!=0 |
+                        no_gof_muts!=0 |
+                        (cnvgain==1) |
+                        (copy_number==0) |
+                        ((copy_number==1) & (no_trunc_muts!=0 | no_ntdam_muts!=0)) |
+                        bnd!=0 |
+                        ins!=0 |
+                        inv!=0) )
 
   return(df)
 }
@@ -665,4 +665,3 @@ scoreGenes = function(ncg.tissue.name=NULL, gtex.tissue.name=NULL,
                                                                            var=stats::var(value)) %>% ungroup
 
 }
-
